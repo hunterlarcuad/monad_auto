@@ -705,6 +705,8 @@ class MonadTask():
                     self.wait_cofirm()
                     self.logit(None, 'OKX Wallet Signature request Confirmed [OK]') # noqa
 
+                    return True
+
             # OKX Wallet Add network
             if len(self.page.tab_ids) == 2:
                 self.logit(None, 'OKX Wallet Add network ...') # noqa
