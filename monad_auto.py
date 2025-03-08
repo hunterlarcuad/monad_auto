@@ -7,8 +7,8 @@ import copy
 import pdb # noqa
 import shutil
 import math
-import re
-from datetime import datetime
+import re # noqa
+from datetime import datetime # noqa
 
 from DrissionPage import ChromiumOptions
 from DrissionPage import ChromiumPage
@@ -19,11 +19,9 @@ from DrissionPage._elements.none_element import NoneElement
 # from DrissionPage.common import Settings
 
 from fun_utils import ding_msg
-from fun_utils import get_date
 from fun_utils import load_file
 from fun_utils import save2file
 from fun_utils import format_ts
-from fun_utils import extract_numbers
 
 from conf import DEF_LOCAL_PORT
 from conf import DEF_INCOGNITO
@@ -39,8 +37,6 @@ from conf import DEF_HEADER_STATUS
 from conf import DEF_OKX_EXTENSION_PATH
 from conf import EXTENSION_ID_OKX
 from conf import DEF_PWD
-from conf import DEF_SEND_AMOUNT_MIN
-from conf import DEF_SEND_AMOUNT_MAX
 from conf import MAGICEDEN_CA
 
 from conf import DEF_PATH_DATA_PURSE
@@ -76,13 +72,6 @@ class MonadTask():
     def __init__(self) -> None:
         self.args = None
         self.page = None
-        self.s_today = get_date(is_utc=True)
-        self.file_proxy = None
-
-        self.n_points_spin = -1
-        self.n_points = -1
-        self.n_referrals = -1
-        self.n_completed = -1
 
         # 是否有更新
         self.is_update = False
@@ -97,14 +86,6 @@ class MonadTask():
     def set_args(self, args):
         self.args = args
         self.is_update = False
-
-        # created tx
-        self.is_created_tx = False
-
-        self.n_points_spin = -1
-        self.n_points = -1
-        self.n_referrals = -1
-        self.n_completed = -1
 
     def __del__(self):
         self.status_save()
@@ -645,12 +626,12 @@ class MonadTask():
                 self.page.wait(1)
                 self.logit(None, 'Cancel Unknown transaction')
 
-            s_url = f'https://magiceden.io/mint-terminal/monad-testnet/{MAGICEDEN_CA}'
+            s_url = f'https://magiceden.io/mint-terminal/monad-testnet/{MAGICEDEN_CA}' # noqa
             self.page.get(s_url)
             # self.page.wait.load_start()
             self.page.wait(3)
 
-            self.logit('monad_auto_login', f'tabs_count={self.page.tabs_count}')
+            self.logit('monad_auto_login', f'tabs_count={self.page.tabs_count}') # noqa
 
             # 钱包连接状态
             ele_btn = self.page.ele('@@tag()=button@@data-test-id=wallet-connect-button', timeout=2) # noqa
@@ -681,7 +662,6 @@ class MonadTask():
                 # 钱包已连接
                 self.logit(None, 'Wallet is connected')
                 return True
-
 
             # OKX Wallet Connect
             self.save_screenshot(name='page_wallet_connect.jpg')
@@ -748,7 +728,7 @@ class MonadTask():
                     if not isinstance(ele_info, NoneElement):
                         s_info = ele_info.text
                         self.logit(None, f'Fail to mint. msg: {s_info}') # noqa
-                        # Mint would exceed wallet limit, you can mint 1 NFTs in total.
+                        # Mint would exceed wallet limit, you can mint 1 NFTs in total. # noqa
                         if s_info.find('exceed') >= 0:
                             self.update_date(IDX_DATE_TX)
                             self.update_status(IDX_NUM_MINT, 1)
@@ -1016,6 +996,7 @@ if __name__ == '__main__':
             time.sleep(args.loop_interval)
 
 """
+# noqa
 python monad_auto.py --sleep_sec_min=30 --sleep_sec_max=60 --loop_interval=60
 python monad_auto.py --sleep_sec_min=600 --sleep_sec_max=1800 --loop_interval=60
 python monad_auto.py --sleep_sec_min=60 --sleep_sec_max=180
